@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore generated content or private content
+data/*
+!data/.gitkeep
+
+# School private files
+school-files
