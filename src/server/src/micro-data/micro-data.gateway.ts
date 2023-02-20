@@ -11,6 +11,7 @@ import {
 @WebSocketGateway({
   transports: ['websocket'],
   namespace: 'micro-data',
+  cors: true,
 })
 export class MicroDataGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
