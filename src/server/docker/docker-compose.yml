@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres:14.3
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: levitador
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
