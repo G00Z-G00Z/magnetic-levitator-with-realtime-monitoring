@@ -5,6 +5,15 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  const config = new DocumentBuilder()
+    .setTitle('Remote Controller Server')
+    .setDescription('Api for the remote controller server')
+    .setVersion('1.0')
+    .addTag('devices')
+    .addTag('users')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
