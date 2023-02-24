@@ -1,14 +1,13 @@
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { MicroDataModule } from './micro-data/micro-data.module';
 import { Module } from '@nestjs/common';
-import { PrismaServiceService } from './prisma-service/prisma-service.service';
 import { DevicesModule } from './devices/devices.module';
+import { PrismaService } from './prisma.service';
 
 @Module({
-  imports: [MicroDataModule, ConfigModule.forRoot(), DevicesModule],
+  imports: [ ConfigModule.forRoot(), DevicesModule],
   controllers: [AppController],
-  providers: [AppService, PrismaServiceService],
+  providers: [AppService,PrismaService],
 })
 export class AppModule {}
