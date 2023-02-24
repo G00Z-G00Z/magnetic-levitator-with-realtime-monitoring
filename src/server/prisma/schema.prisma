@@ -10,14 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// A user that listens to a device's data
 model User {
   id    String @id @default(uuid())
-  email String @unique
-  name  String
+  email String @unique @db.VarChar(40)
+  name  String @db.VarChar(20)
+  /// Tells if a user has an active connection
+  active Boolean @default(false)
 }
-
+/// A device that sends data to the server
 model Device {
   id   String @id @default(uuid())
-  name String
-  unit String
+  name String @db.VarChar(20)
+  /// Unit of the data being recieved
+  unit String @db.VarChar(5)
+  /// Tells if a device has an active connection
+  active Boolean @default(false)
 }
