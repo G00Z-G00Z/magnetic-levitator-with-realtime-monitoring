@@ -19,6 +19,10 @@ export class UsersService {
     return await this.prisma.user.findUnique({ where: { id } });
   }
 
+  async findOneByEmail(email: string) {
+    return await this.prisma.user.findUnique({ where: { email } });
+  }
+
   update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
