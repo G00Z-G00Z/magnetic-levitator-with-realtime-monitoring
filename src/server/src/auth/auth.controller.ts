@@ -1,9 +1,10 @@
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalGuard } from './local.guard';
 import { LoginDto } from './dto';
 import { PublicUser } from '../users/interface';
+import { JwtAuthGuard } from './jwt.guard';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -17,5 +18,14 @@ export class AuthController {
     @Request() req: Request & { user: PublicUser },
   ) {
     return this.authService.login(req.user);
+  }
+
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(
+    @Request() req: Request & { user: PublicUser },
+  ) {
+    return req.user!
   }
 }
