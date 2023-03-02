@@ -44,6 +44,6 @@ model Device {
 /// Example: Temperature, Humidity, Robotic arm etc.
 model DeviceType {
   id     String   @id @default(uuid())
-  name   String   @db.VarChar(20)
+  name   String   @unique @db.VarChar(20)
   Device Device[]
 }
