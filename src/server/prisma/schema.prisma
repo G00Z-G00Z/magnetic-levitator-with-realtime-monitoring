@@ -25,10 +25,9 @@ model User {
 
 /// A device that sends data to the server
 model Device {
-  id     String  @id @default(uuid())
-  name   String  @db.VarChar(20)
-  /// Unit of the data being recieved
-  unit   String  @db.VarChar(5)
+  id   String @id @default(uuid())
+  name String @db.VarChar(20)
+
   /// Tells if a device has an active connection
   active Boolean @default(false)
 
