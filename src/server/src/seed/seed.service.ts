@@ -59,7 +59,7 @@ export class SeedService {
         name: 'levitador-clase',
         type: {
           connect: {
-            name: 'PID',
+            name: 'pid',
           },
         },
         owner: {
