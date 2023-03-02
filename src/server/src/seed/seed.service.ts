@@ -9,21 +9,21 @@ export class SeedService {
 
   async clearDatabase() {
     this.logger.log('Clearing database...');
-    this.logger.log('Deleting all devices...');
+    this.logger.debug('Deleting all devices...');
     // Delete all devices
     await this.prismaService.device.deleteMany();
-    this.logger.log('Deleted all devices');
+    this.logger.debug('Deleted all devices');
 
-    this.logger.log('Deleting all users...');
+    this.logger.debug('Deleting all users...');
     // Delete all devices
     // Delete all users
     await this.prismaService.user.deleteMany();
-    this.logger.log('Deleted all users');
+    this.logger.debug('Deleted all users');
 
-    this.logger.log('Deleting all device types ...');
+    this.logger.debug('Deleting all device types ...');
     // Delete all device types
     await this.prismaService.deviceType.deleteMany();
-    this.logger.log('Deleted all device types');
+    this.logger.debug('Deleted all device types');
 
     this.logger.log('Database cleared successfully');
   }
@@ -38,7 +38,7 @@ export class SeedService {
         name: 'admin',
       },
     });
-    this.logger.log('Created admin user');
+    this.logger.debug('Created admin user');
 
     // Create device types
     const types = ['robotic-arm', 'PID'];
@@ -51,7 +51,7 @@ export class SeedService {
       });
     }
 
-    this.logger.log(`Created device types ${types.join(', ')}`);
+    this.logger.debug(`Created device types ${types.join(', ')}`);
 
     // Create devices
     await this.prismaService.device.create({
@@ -69,7 +69,7 @@ export class SeedService {
         },
       },
     });
-    this.logger.log(`Created levitator device `);
+    this.logger.debug(`Created levitator device `);
 
     this.logger.log('Database seeded successfully');
   }
