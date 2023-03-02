@@ -35,4 +35,16 @@ model Device {
   /// This is the user that registered the device
   owner  User   @relation("RegisteredDevices", fields: [userId], references: [id])
   userId String
+
+  /// This is the type of the device
+  type   DeviceType @relation(fields: [typeId], references: [id])
+  typeId String
+}
+
+/// Device type that is used to categorize devices
+/// Example: Temperature, Humidity, Robotic arm etc.
+model DeviceType {
+  id     String   @id @default(uuid())
+  name   String   @db.VarChar(20)
+  Device Device[]
 }
