@@ -52,7 +52,7 @@ export class DeviceTypesService {
 
   async findByName(name: string) {
     const devType = await this.prisma.deviceType.findUnique({
-      where: { name },
+      where: { name : this.cleanName(name) },
     });
 
     if (!devType) {
