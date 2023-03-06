@@ -52,7 +52,7 @@ export class UsersService {
     const user = await this.findOneById(id);
 
     const isActive =
-      updateUserDto.active === undefined ? user.active : updateUserDto.active;
+      updateUserDto?.active === undefined ? user.active : updateUserDto.active;
 
     const newUser = await this.prisma.user.update({
       where: { id },
