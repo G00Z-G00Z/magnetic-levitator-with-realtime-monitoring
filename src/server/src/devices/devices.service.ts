@@ -26,7 +26,7 @@ export class DevicesService {
     const cleanName = createDeviceDto.name.trim();
 
     const deviceType = await this.deviceTypeService.findByName(
-      createDeviceDto.name,
+      createDeviceDto.type,
     );
 
     const device = await this.prismaService.device.create({
