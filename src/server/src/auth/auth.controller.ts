@@ -1,8 +1,11 @@
 import { ApiBearerAuth, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt.guard';
+import { JWTPayload } from './interfaces';
+import { JwtUser } from './jwt-user.decorator';
 import { LocalGuard } from './local.guard';
 import { LoginDto, RegisterDto } from './dto';
+import { Public } from './public.decorator';
 import { PublicUser } from '../users/interface';
 import {
   Body,
@@ -18,6 +21,7 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @UseGuards(LocalGuard)
   @Post('login')
   async login(
@@ -35,7 +39,7 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async getProfile(@Request() req: Request & { user: PublicUser }) {
-    return req.user!;
+  async getProfile(@JwtUser() user: JWTPayload) {
+    return user;
   }
 }
