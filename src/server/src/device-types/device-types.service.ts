@@ -6,9 +6,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  PrismaClientKnownRequestError
-} from '@prisma/client/runtime';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
 export class DeviceTypesService {
@@ -19,7 +17,7 @@ export class DeviceTypesService {
   }
 
   async create({ name }: CreateDeviceTypeDto) {
-    const cleanName = this.cleanName(name)
+    const cleanName = this.cleanName(name);
 
     const repeatedType = await this.findByName(cleanName);
 
@@ -71,7 +69,7 @@ export class DeviceTypesService {
       return devType;
     }
 
-    const cleanName = this.cleanName(updateDeviceTypeDto.name)
+    const cleanName = this.cleanName(updateDeviceTypeDto.name);
 
     try {
       return await this.prisma.deviceType.update({

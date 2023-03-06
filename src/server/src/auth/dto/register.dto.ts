@@ -7,5 +7,3 @@ export class RegisterDto extends LoginDto {
   @MaxLength(20)
   name: string;
 }
-
-
