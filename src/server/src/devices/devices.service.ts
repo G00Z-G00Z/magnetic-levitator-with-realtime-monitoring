@@ -7,7 +7,7 @@ import { UpdateDeviceDto } from './dto/update-device.dto';
 export class DevicesService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createDeviceDto: CreateDeviceDto) {
+  create(createDeviceDto: CreateDeviceDto, requestingUserId: string) {
     return 'This action adds a new device';
   }
 
@@ -15,7 +15,7 @@ export class DevicesService {
     return this.prismaService.device.findMany({});
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, requestingUserId: string) {
     const device = await this.prismaService.device.findUnique({
       where: { id },
     });
@@ -25,11 +25,15 @@ export class DevicesService {
     return device;
   }
 
-  update(id: string, updateDeviceDto: UpdateDeviceDto) {
+  update(
+    id: string,
+    updateDeviceDto: UpdateDeviceDto,
+    requestingUserId: string,
+  ) {
     return `This action updates a #${id} device`;
   }
 
-  async remove(id: string) {
+  async remove(id: string, requestingUserId: string) {
     await this.prismaService.device.delete({ where: { id } });
     return {
       msg: 'ok',

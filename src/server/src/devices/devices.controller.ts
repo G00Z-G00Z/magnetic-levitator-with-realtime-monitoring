@@ -1,6 +1,8 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { DevicesService } from './devices.service';
+import { JWTPayload } from '../auth/interfaces';
+import { JwtUser } from '../auth/jwt-user.decorator';
 import { Public } from '../auth/public.decorator';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import {
@@ -22,8 +24,11 @@ export class DevicesController {
    * The user using this method, must be authenticated and authorized to create a device.Automatically, it will be connected to the user that created it.
    */
   @Post()
-  create(@Body() createDeviceDto: CreateDeviceDto) {
-    return this.devicesService.create(createDeviceDto);
+  create(
+    @Body() createDeviceDto: CreateDeviceDto,
+    @JwtUser() user: JWTPayload,
+  ) {
+    return this.devicesService.create(createDeviceDto, user.sub);
   }
 
   @Get()
@@ -32,17 +37,21 @@ export class DevicesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.devicesService.findOne(id);
+  findOne(@Param('id') id: string, @JwtUser() user: JWTPayload) {
+    return this.devicesService.findOne(id, user.sub);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeviceDto: UpdateDeviceDto) {
-    return this.devicesService.update(id, updateDeviceDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateDeviceDto: UpdateDeviceDto,
+    @JwtUser() user: JWTPayload,
+  ) {
+    return this.devicesService.update(id, updateDeviceDto, user.sub);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.devicesService.remove(id);
+  remove(@Param('id') id: string, @JwtUser() user: JWTPayload) {
+    return this.devicesService.remove(id, user.sub);
   }
 }
