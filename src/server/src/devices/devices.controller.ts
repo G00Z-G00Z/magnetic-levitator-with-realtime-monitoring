@@ -3,7 +3,6 @@ import { CreateDeviceDto } from './dto/create-device.dto';
 import { DevicesService } from './devices.service';
 import { JWTPayload } from '../auth/interfaces';
 import { JwtUser } from '../auth/jwt-user.decorator';
-import { Public } from '../auth/public.decorator';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import {
   Body,
