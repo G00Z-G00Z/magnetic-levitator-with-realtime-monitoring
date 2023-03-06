@@ -1,3 +1,8 @@
+import { ApiTags } from '@nestjs/swagger';
+import { CreateDeviceDto } from './dto/create-device.dto';
+import { DevicesService } from './devices.service';
+import { Public } from '../auth/public.decorator';
+import { UpdateDeviceDto } from './dto/update-device.dto';
 import {
   Body,
   Controller,
@@ -7,10 +12,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateDeviceDto } from './dto/create-device.dto';
-import { DevicesService } from './devices.service';
-import { UpdateDeviceDto } from './dto/update-device.dto';
 
+@ApiTags('devices')
 @Controller('devices')
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
