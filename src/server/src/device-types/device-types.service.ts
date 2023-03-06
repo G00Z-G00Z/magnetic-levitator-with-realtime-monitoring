@@ -7,8 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
-  PrismaClientKnownRequestError,
-  PrismaClientValidationError,
+  PrismaClientKnownRequestError
 } from '@prisma/client/runtime';
 
 @Injectable()
