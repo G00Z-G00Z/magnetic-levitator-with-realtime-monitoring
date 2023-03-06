@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { SeedModule } from './seed/seed.module';
 import { UsersModule } from './users/users.module';
+import { DeviceTypesModule } from './device-types/device-types.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     PrismaModule,
     SeedModule,
+    DeviceTypesModule,
   ],
   controllers: [AppController],
   providers: [
