@@ -15,8 +15,12 @@ import {
 export class DeviceTypesService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private cleanName(name: string): string {
+    return name.trim().toLowerCase();
+  }
+
   async create({ name }: CreateDeviceTypeDto) {
-    const cleanName = name.toLocaleLowerCase().trim();
+    const cleanName = this.cleanName(name)
 
     const repeatedType = await this.findByName(cleanName);
 
@@ -68,7 +72,7 @@ export class DeviceTypesService {
       return devType;
     }
 
-    const cleanName = updateDeviceTypeDto.name.toLocaleLowerCase().trim();
+    const cleanName = this.cleanName(updateDeviceTypeDto.name)
 
     try {
       return await this.prisma.deviceType.update({
