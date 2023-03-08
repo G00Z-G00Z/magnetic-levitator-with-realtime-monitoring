@@ -9,3 +9,22 @@ export interface JWTUserPayload {
   email: string;
   name: string;
 }
+
+/**
+ * Interface of all devices' jwt tokens
+ */
+export interface JWTDevicesPayload {
+  /**
+   * Device id
+   */
+  sub: string;
+  /**
+   * OwnerId
+   */
+  ownerId: string;
+  name: string;
+  /**
+   * Only available types
+   */
+  type: string;
+}
