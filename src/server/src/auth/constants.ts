@@ -1,3 +1,6 @@
 export const jwtConstants = {
-  secret: 'no me gusta el secreto',
+  /**
+   * This is secret for users
+   */
+  usersSecret: 'no me gusta el secreto',
 };
