@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { JWTPayload } from './interfaces';
+import { JWTUserPayload } from './interfaces';
 
 /**
  * Takes a user from the request object in http
@@ -7,6 +7,6 @@ import { JWTPayload } from './interfaces';
 export const JwtUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
-    return request.user as JWTPayload;
+    return request.user as JWTUserPayload;
   },
 );

@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { DevicesService } from './devices.service';
-import { JWTPayload } from '../auth/interfaces';
+import { JWTUserPayload } from '../auth/interfaces';
 import { JwtUser } from '../auth/jwt-user.decorator';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import {
@@ -25,7 +25,7 @@ export class DevicesController {
   @Post()
   create(
     @Body() createDeviceDto: CreateDeviceDto,
-    @JwtUser() user: JWTPayload,
+    @JwtUser() user: JWTUserPayload,
   ) {
     return this.devicesService.create(createDeviceDto, user.sub);
   }
@@ -36,7 +36,7 @@ export class DevicesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @JwtUser() user: JWTPayload) {
+  findOne(@Param('id') id: string, @JwtUser() user: JWTUserPayload) {
     return this.devicesService.findOne(id, user.sub);
   }
 
@@ -44,13 +44,18 @@ export class DevicesController {
   update(
     @Param('id') id: string,
     @Body() updateDeviceDto: UpdateDeviceDto,
-    @JwtUser() user: JWTPayload,
+    @JwtUser() user: JWTUserPayload,
   ) {
     return this.devicesService.update(id, updateDeviceDto, user.sub);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @JwtUser() user: JWTPayload) {
+  remove(@Param('id') id: string, @JwtUser() user: JWTUserPayload) {
     return this.devicesService.remove(id, user.sub);
+  }
+
+  @Post(':id/token')
+  generateToken(@Param('id') id: string, @JwtUser() user: JWTUserPayload) {
+    return this.devicesService.generateToken(id, user.sub);
   }
 }

@@ -1,7 +1,7 @@
 /**
- * Interface of all jwt tokens
+ * Interface of all users' jwt tokens
  */
-export interface JWTPayload {
+export interface JWTUserPayload {
   /**
    * This is the user id
    */

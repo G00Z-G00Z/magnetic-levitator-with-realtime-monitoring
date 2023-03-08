@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { jwtConstants } from './constants';
-import { JWTPayload } from './interfaces';
+import { JWTUserPayload } from './interfaces';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    * If this process reaches, it is guaranteed that we are receiving a valid token
    */
-  async validate(payload: JWTPayload) {
+  async validate(payload: JWTUserPayload) {
     const { sub, name, email } = payload;
     return { sub, name, email };
   }
