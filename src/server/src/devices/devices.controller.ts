@@ -57,6 +57,6 @@ export class DevicesController {
 
   @Post(':id/token')
   generateToken(@Param('id') id: string, @JwtUser() user: JWTUserPayload) {
-    return this.devicesService.generateToken(id, user.sub);
+    return this.devicesService.getRegisterDeviceToken(id, user.sub)
   }
 }

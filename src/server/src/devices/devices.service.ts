@@ -8,12 +8,16 @@ import { PrismaService } from '../prisma/prisma.service';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { DeviceTypesService } from 'src/device-types/device-types.service';
 import { Device, Prisma } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
+import { JWTDevicesPayload } from 'src/auth/interfaces';
+import { jwtConstants } from 'src/auth/constants';
 
 @Injectable()
 export class DevicesService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly deviceTypeService: DeviceTypesService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async checkIfUserOwnsDevice(deviceId: string, userId: string) {
@@ -109,6 +113,34 @@ export class DevicesService {
     await this.prismaService.device.delete({ where: { id } });
     return {
       msg: 'ok',
+    };
+  }
+
+  async getRegisterDeviceToken(id: string, requestingUserId: string) {
+    await this.checkIfUserOwnsDevice(id, requestingUserId);
+    const {
+      name,
+      userId,
+      type: deviceType,
+    } = await this.prismaService.device.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: {
+        type: true,
+      },
+    });
+    const payload: JWTDevicesPayload = {
+      name,
+      sub: id,
+      type: deviceType.name,
+      ownerId: userId,
+    };
+
+    return {
+      access_token: this.jwtService.sign(payload, {
+        secret: jwtConstants.devicesSecret,
+      }),
     };
   }
 }
