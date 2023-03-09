@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { DevicesService } from './devices.service';
 import { JWTUserPayload } from '../auth/interfaces';
@@ -14,6 +14,7 @@ import {
   Post,
 } from '@nestjs/common';
 
+@ApiBearerAuth()
 @ApiTags('devices')
 @Controller('devices')
 export class DevicesController {
