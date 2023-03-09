@@ -7,17 +7,16 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { DeviceTypesService } from 'src/device-types/device-types.service';
-import { Device, Prisma } from '@prisma/client';
-import { JwtService } from '@nestjs/jwt';
+import { Prisma } from '@prisma/client';
 import { JWTDevicesPayload } from 'src/auth/interfaces';
-import { jwtConstants } from 'src/auth/constants';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class DevicesService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly deviceTypeService: DeviceTypesService,
-    private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   async checkIfUserOwnsDevice(deviceId: string, userId: string) {
@@ -138,9 +137,7 @@ export class DevicesService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload, {
-        secret: jwtConstants.devicesSecret,
-      }),
+      access_token: this.authService.generateAccessTokenForDevice(payload),
     };
   }
 }
