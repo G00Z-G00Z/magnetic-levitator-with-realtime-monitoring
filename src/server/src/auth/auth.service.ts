@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { JWTUserPayload } from './interfaces';
+import { JWTDevicesPayload, JWTUserPayload } from './interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { PublicUser } from '../users/interface';
 import { RegisterDto } from './dto';
 import { UsersService } from '../users/users.service';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
@@ -35,5 +36,15 @@ export class AuthService {
   async registerUser(registerDto: RegisterDto) {
     const user = await this.userService.create(registerDto);
     return await this.login(user);
+  }
+
+  /**
+   * Generates a token for a device, using a different secret and a different date
+   */
+  generateAccessTokenForDevice(jwtDevicePayload: JWTDevicesPayload) {
+    return this.jwtService.sign(jwtDevicePayload, {
+      secret: jwtConstants.devicesSecret,
+      expiresIn: '1y',
+    });
   }
 }
