@@ -5,7 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DevicesModule } from './devices/devices.module';
 import { JwtAuthGuard } from './auth/jwt.guard';
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
 import { SeedModule } from './seed/seed.module';
 import { UsersModule } from './users/users.module';
@@ -20,6 +20,9 @@ import { DeviceTypesModule } from './device-types/device-types.module';
     PrismaModule,
     SeedModule,
     DeviceTypesModule,
+        CacheModule.register({
+            isGlobal : true
+        })
   ],
   controllers: [AppController],
   providers: [
