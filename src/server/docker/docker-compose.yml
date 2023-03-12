@@ -12,4 +12,12 @@ services:
       POSTGRES_DB: levitador
     volumes:
       - ./postgres:/var/lib/postgresql/data
+  # Redis for caching websockets 
+  redis:
+    image: redis:latest
+    restart: always
+    ports: 
+      - 6379:6379
+    volumes: 
+      - ./redis:/data
 
