@@ -10,23 +10,24 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SeedModule } from './seed/seed.module';
 import { UsersModule } from './users/users.module';
 import { DeviceTypesModule } from './device-types/device-types.module';
-import * as redisStore from 'cache-manager-redis-store';
+import redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CacheModule.register({
+      store: redisStore as any,
+      // Store-specific configuration:
+      isGlobal: true,
+      host: 'localhost',
+      port: 6379,
+    }),
     DevicesModule,
     AuthModule,
     UsersModule,
     PrismaModule,
     SeedModule,
     DeviceTypesModule,
-    CacheModule.register({
-      isGlobal: true,
-      store: redisStore as any,
-      host: 'localhost',
-      port: 6379,
-    }),
   ],
   controllers: [AppController],
   providers: [
