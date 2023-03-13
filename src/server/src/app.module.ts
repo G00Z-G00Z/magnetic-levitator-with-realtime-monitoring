@@ -10,6 +10,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SeedModule } from './seed/seed.module';
 import { UsersModule } from './users/users.module';
 import { DeviceTypesModule } from './device-types/device-types.module';
+import { WebSocketAuthModule } from './web-socket-auth/web-socket-auth.module';
 import redisStore from 'cache-manager-redis-store';
 
 @Module({
@@ -28,6 +29,7 @@ import redisStore from 'cache-manager-redis-store';
     PrismaModule,
     SeedModule,
     DeviceTypesModule,
+    WebSocketAuthModule,
   ],
   controllers: [AppController],
   providers: [
