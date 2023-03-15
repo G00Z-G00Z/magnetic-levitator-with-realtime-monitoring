@@ -1,5 +1,5 @@
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { CreateDeviceDto } from './dto/create-device.dto';
+import { CreateDeviceDto } from './dto';
 import { DevicesService } from './devices.service';
 import { JWTUserPayload } from '../auth/interfaces';
 import { JwtUser } from '../auth/jwt-user.decorator';

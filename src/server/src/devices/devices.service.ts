@@ -1,4 +1,4 @@
-import { CreateDeviceDto } from './dto/create-device.dto';
+import { CreateDeviceDto } from './dto';
 import {
   Injectable,
   NotFoundException,
