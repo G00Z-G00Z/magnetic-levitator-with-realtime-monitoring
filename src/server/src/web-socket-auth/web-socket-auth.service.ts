@@ -1,11 +1,8 @@
-import {
-  CACHE_MANAGER,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { WsException } from '@nestjs/websockets';
 import { Cache } from 'cache-manager';
 import { Socket } from 'socket.io';
+import { AuthService } from 'src/auth/auth.service';
 
 /**
  * WebSocketAuthService
@@ -15,34 +12,29 @@ import { Socket } from 'socket.io';
  * is considered as invalid
  */
 @Injectable()
-export class WebSocketAuthService {
-  constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
+export abstract class WebSocketAuthService<Payload_T> {
+  constructor(
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
+    protected readonly authService: AuthService,
+  ) {}
 
-  async addUserConection(socket: Socket, userSub: string) {
-    await this.cache.set(socket.id, userSub);
+  protected abstract getPayload(token: string): Payload_T;
+
+  async addConnection(socket: Socket, token: string) {
+    const payload = this.getPayload(token);
+    await this.cache.set(socket.id, JSON.stringify(payload));
   }
 
-  async findConnection(socket: Socket) {
-    const sub = await this.cache.get<string>(socket.id);
-    if (!sub)
-      throw new UnauthorizedException('Connection has not been authorized');
-    return sub;
-  }
-
-  async addDeviceConection(socket: Socket, deviceSub: string) {
-    await this.cache.set(socket.id, deviceSub);
+  async findConnection(socket: Socket): Promise<Payload_T> {
+    const payload = await this.cache.get<string>(socket.id);
+    if (!payload)
+      throw new WsException('Connection has not been authenticated');
+    return JSON.parse(payload);
   }
 
   async removeConnection(socket: Socket) {
     await this.cache.del(socket.id);
   }
-
-  handleUnathorizedError(error: Error, socket: Socket) {
-    if (error instanceof UnauthorizedException) {
-      socket.emit('invalid connection');
-      socket.disconnect();
-      return;
-    }
-    throw error;
-  }
 }
+
+

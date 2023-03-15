@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { WebSocketAuthService } from './web-socket-auth.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { WebSocketDeviceAuthService } from './web-socket-device-auth.service';
+import { WebSocketUserAuthService } from './web-socket-user-auth.service';
 
 @Module({
-  providers: [WebSocketAuthService],
-  exports: [WebSocketAuthService],
+  providers: [WebSocketUserAuthService, WebSocketDeviceAuthService],
+  exports: [WebSocketUserAuthService, WebSocketDeviceAuthService],
+  imports: [AuthModule],
 })
 export class WebSocketAuthModule {}
