@@ -47,4 +47,16 @@ export class AuthService {
       expiresIn: '1y',
     });
   }
+
+  checkValidUserToken(token: string) {
+    const payload: JWTUserPayload = this.jwtService.verify(token);
+    return payload;
+  }
+
+  checkValidDeviceToken(token: string) {
+    const payload: JWTDevicesPayload = this.jwtService.verify(token, {
+      secret: jwtConstants.devicesSecret,
+    });
+    return payload;
+  }
 }
