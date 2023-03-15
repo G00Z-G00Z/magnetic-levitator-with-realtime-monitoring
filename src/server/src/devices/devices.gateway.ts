@@ -1,13 +1,17 @@
-import { UnauthorizedException } from '@nestjs/common';
 import {
   ConnectedSocket,
+  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
+  WebSocketServer,
+  WsResponse,
 } from '@nestjs/websockets';
+import { Server } from 'http';
 import { Socket } from 'socket.io';
-import { WebSocketAuthService } from 'src/web-socket-auth/web-socket-auth.service';
+import { WebSocketDeviceAuthService } from 'src/web-socket-auth/web-socket-device-auth.service';
+import { LoginDeviceDto } from './dto';
 
 @WebSocketGateway(8001, {
   namespace: 'devices',
@@ -16,27 +20,31 @@ import { WebSocketAuthService } from 'src/web-socket-auth/web-socket-auth.servic
 export class DevicesGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
-  constructor(private readonly authWebSocket: WebSocketAuthService) {}
+  @WebSocketServer() private readonly wss: Server;
 
-  async handleConnection(@ConnectedSocket() deviceConnection: Socket) {
-    await this.authWebSocket
-      .findConnection(deviceConnection)
-      .catch((error) =>
-        this.authWebSocket.handleUnathorizedError(error, deviceConnection),
-      );
+  constructor(private readonly authWebSocket: WebSocketDeviceAuthService) {}
+
+  async handleConnection(
+    @ConnectedSocket() deviceConnection: Socket,
+    @MessageBody() payload: LoginDeviceDto,
+  ) {
+    await this.authWebSocket.findConnection(deviceConnection);
     return 'connected';
   }
 
   /**
    * Deletes the connection from the cache
    */
-  async handleDisconnect(deviceConnection: Socket) {
+  async handleDisconnect(@ConnectedSocket() deviceConnection: Socket) {
     await this.authWebSocket.removeConnection(deviceConnection);
     return 'disconnected';
   }
 
-  @SubscribeMessage('message')
-  handleMessage(deviceConnection: any, payload: any): string {
+  @SubscribeMessage('send-data')
+  sendData(@ConnectedSocket() deviceConnection: Socket): string {
+    // get the data
+    // Send it to the device and client
+    // and that's it
     return 'Hello world!';
   }
 }
