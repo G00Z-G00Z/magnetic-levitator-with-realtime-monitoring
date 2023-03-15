@@ -36,4 +36,13 @@ export class WebSocketAuthService {
   async removeConnection(socket: Socket) {
     await this.cache.del(socket.id);
   }
+
+  handleUnathorizedError(error: Error, socket: Socket) {
+    if (error instanceof UnauthorizedException) {
+      socket.emit('invalid connection');
+      socket.disconnect();
+      return;
+    }
+    throw error;
+  }
 }
