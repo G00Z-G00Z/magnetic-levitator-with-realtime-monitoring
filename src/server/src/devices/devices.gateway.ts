@@ -9,8 +9,9 @@ import {
 import { Socket } from 'socket.io';
 import { WebSocketAuthService } from 'src/web-socket-auth/web-socket-auth.service';
 
-@WebSocketGateway(80, {
+@WebSocketGateway(8001, {
   namespace: 'devices',
+  cors: true,
 })
 export class DevicesGateway
   implements OnGatewayConnection, OnGatewayDisconnect
