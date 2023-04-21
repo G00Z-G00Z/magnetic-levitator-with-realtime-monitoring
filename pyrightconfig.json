@@ -1,0 +1,8 @@
+{
+    "executionEnvironments": [
+        {
+            "root": "./src/computer/src"
+        }
+    ],
+    "venv": "sensor-distancia-env"
+}
