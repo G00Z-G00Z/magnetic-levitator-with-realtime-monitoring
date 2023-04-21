@@ -1,5 +1,5 @@
 import { AppService } from './app.service';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Redirect } from '@nestjs/common';
 import { Public } from './auth/public.decorator';
 
 @Controller()
@@ -8,7 +8,7 @@ export class AppController {
 
   @Public()
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Redirect('/api', 301)
+  getHello() {
   }
 }
