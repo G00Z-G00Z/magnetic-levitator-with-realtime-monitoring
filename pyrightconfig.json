@@ -4,5 +4,5 @@
             "root": "./src/computer/src"
         }
     ],
-    "venv": "sensor-distancia-env"
+    "venv": "./src/computer/computer-venv"
 }
